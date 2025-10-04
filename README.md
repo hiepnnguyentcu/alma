@@ -140,11 +140,34 @@ Once successfully set up, all containerized resources should be running as below
 
 ---
 
-## APIs
+## API Documentation
+
+- [Swagger UI (OpenAPI)](http://localhost:8000/docs)
+- **Postman Collection Available For Download**: https://drive.google.com/file/d/1swOgKQSOmpV7ysMlKbLo5BnsQo_DYvev/view?usp=sharing
+
+
+<p align="center">
+  <img width="1167" height="477" alt="Screenshot 2025-10-04 at 4 36 00 PM" src="https://github.com/user-attachments/assets/5e2ff8ee-4ff0-4058-8c01-1ecb6ae4216a" />
+  <br/>
+  <em>Figure: Collection of APIs available</em>
+</p>
 
 ---
 
 ## Testing
+```bash
+cd leads-service
+
+# Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests
+pytest
+```
 
 ---
 
@@ -153,6 +176,8 @@ Once successfully set up, all containerized resources should be running as below
 ---
 
 ## Future work
-
-
+Due to limited time, below topics are considered but not yet implemented :(
+- Retry logic for Pub/Sub
+- System-wide observability
+- More unit tests/ integration tests
 
