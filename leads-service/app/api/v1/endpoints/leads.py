@@ -21,6 +21,34 @@ async def create_lead(
     """Create a new lead with resume upload"""
     return await lead_service.create_lead(first_name, last_name, email, resume, db)
 
+@router.get("/leads/{lead_id}", response_model=LeadResponse)
+async def get_lead_by_id(
+    lead_id: str,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_postgres_db)
+):
+    """Get a specific lead by ID"""
+    return lead_service.get_lead_by_id(db, lead_id)
+
+@router.put("/leads/{lead_id}", response_model=LeadResponse)
+async def update_lead(
+    lead_id: str,
+    first_name: str = Form(None),
+    last_name: str = Form(None),
+    email: str = Form(None),
+    resume: UploadFile = File(None),
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_postgres_db)
+):
+    """Update lead information (supports file upload)"""
+    return await lead_service.update_lead(
+        db=db,
+        lead_id=lead_id,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        resume_file=resume
+    )
 
 @router.get("/leads", response_model=LeadListResponse)
 async def get_leads(

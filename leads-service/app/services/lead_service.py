@@ -5,6 +5,7 @@ import uuid
 import logging
 import math
 import urllib.parse
+from typing import Optional
 from app.models.lead import LeadStatus
 from app.schemas.lead import LeadResponse, LeadCreate, LeadListResponse
 from app.services.file_service import FileUploadService
@@ -84,7 +85,63 @@ class LeadService:
             
         except Exception as e:
             logger.error(f"Failed to publish lead created event: {e}")
+    
+    def get_lead_by_id(self, db: Session, lead_id: str) -> LeadResponse:
+        """Get a specific lead by ID"""
+        try:
+            lead = lead_crud.get(db, id=lead_id)
+            if not lead:
+                raise HTTPException(
+                    status_code=404, 
+                    detail=f"Lead with ID {lead_id} not found"
+                )
             
+            lead_response = LeadResponse.from_orm(lead)
+            lead_response.resume_url = self._generate_resume_url(lead.resume_path)
+            
+            return lead_response
+            
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Error retrieving lead {lead_id}: {e}")
+            raise HTTPException(status_code=500, detail="Failed to retrieve lead")
+    
+    async def update_lead(
+        self,
+        db: Session,
+        lead_id: str,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        email: Optional[str] = None,
+        resume_file: Optional[UploadFile] = None,
+    ) -> LeadResponse:
+        """Update lead info and optionally upload a new resume"""
+        lead = lead_crud.get(db, id=lead_id)
+        if not lead:
+            raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
+
+        update_data = {}
+        if first_name is not None:
+            update_data["first_name"] = first_name.strip()
+        if last_name is not None:
+            update_data["last_name"] = last_name.strip()
+        if email is not None:
+            update_data["email"] = email.strip()
+
+        # Use the new email if provided, otherwise use the existing email
+        email_for_resume = email.strip() if email is not None else lead.email
+
+        # If a new resume is uploaded, upload and update path
+        if resume_file is not None:
+            resume_path = await self.file_service.upload_resume(resume_file, email_for_resume)
+            update_data["resume_path"] = resume_path
+
+        updated_lead = lead_crud.update(db, db_obj=lead, obj_in=update_data)
+        lead_response = LeadResponse.from_orm(updated_lead)
+        lead_response.resume_url = self._generate_resume_url(updated_lead.resume_path)
+        return lead_response
+    
     def get_paginated_leads(
         self, 
         db: Session, 
