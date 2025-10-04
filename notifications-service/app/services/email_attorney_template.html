@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header { 
+            color: #2c3e50; 
+            border-bottom: 2px solid #3498db; 
+            margin-bottom: 20px;
+        }
+        .lead-info { 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+        }
+        .info-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        .info-table td { 
+            padding: 8px 0; 
+        }
+        .label { 
+            font-weight: bold; 
+            width: 100px;
+        }
+        .email-link { 
+            color: #3498db; 
+            text-decoration: none; 
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 30px; 
+            padding-top: 20px; 
+            border-top: 1px solid #e0e0e0; 
+            color: #7f8c8d; 
+            font-size: 12px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">🎯 New Lead: {{ first_name }} {{ last_name }}</h2>
+        
+        <div class="lead-info">
+            <h3>Lead Information:</h3>
+            <table class="info-table">
+                <tr>
+                    <td class="label">Name:</td>
+                    <td>{{ first_name }} {{ last_name }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Email:</td>
+                    <td><a href="mailto:{{ email }}" class="email-link">{{ email }}</a></td>
+                </tr>
+                <tr>
+                    <td class="label">Resume:</td>
+                    <td>{{ resume_path }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Submitted:</td>
+                    <td>{{ created_at }}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>Alma Lead Management System - Automated Notification</p>
+        </div>
+    </div>
+</body>
+</html>

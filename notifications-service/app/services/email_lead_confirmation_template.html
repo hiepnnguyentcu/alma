@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header { 
+            color: #2c3e50; 
+            border-bottom: 2px solid #3498db; 
+            margin-bottom: 20px;
+        }
+        .content { 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 30px; 
+            padding-top: 20px; 
+            border-top: 1px solid #e0e0e0; 
+            color: #7f8c8d; 
+            font-size: 12px; 
+        }
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">✅ Thank You, {{ first_name }}!</h2>
+        
+        <div class="content">
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            
+            <p>Thank you for choosing <strong>Alma Legal</strong>. We have received your information and resume.</p>
+            
+            <p class="highlight">📞 An attorney will reach out to you within 24 hours.</p>
+            
+            <p>We appreciate your interest in our legal services and look forward to discussing how we can assist you.</p>
+            
+            <p>Best regards,<br>
+            <strong>The Alma Legal Team</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>Alma Legal - Professional Legal Services</p>
+        </div>
+    </div>
+</body>
+</html>

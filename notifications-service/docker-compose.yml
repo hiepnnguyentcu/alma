@@ -1,0 +1,20 @@
+name: notifications-service
+
+services:
+  notifications-service:
+    build: .
+    container_name: notifications-app
+    ports:
+      - "8001:8001"
+    environment:
+      - POSTGRES_SERVER=${POSTGRES_SERVER}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - alma-infra_alma-network
+
+networks:
+  alma-infra_alma-network:
+    external: true
