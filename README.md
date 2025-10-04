@@ -176,7 +176,7 @@ pytest
 ---
 
 ## Future work
-Due to limited time, below topics are considered but not yet implemented :(
+Due to limited time, below topics were considered but not yet implemented :(
 - Retry logic for Pub/Sub
 - System-wide observability
 - More unit tests/ integration tests
