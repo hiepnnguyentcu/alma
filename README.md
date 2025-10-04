@@ -142,7 +142,7 @@ Once successfully set up, all containerized resources should be running as below
 
 ## API Documentation
 
-- [Swagger UI (OpenAPI)](http://localhost:8000/docs)
+- Once system is up and running -- all APIs are available on Swagger: http://localhost:8000/docs
 - **Postman Collection Available For Download**: https://drive.google.com/file/d/1swOgKQSOmpV7ysMlKbLo5BnsQo_DYvev/view?usp=sharing
 
 
