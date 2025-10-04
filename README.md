@@ -101,6 +101,95 @@ Before setting up  locally, ensure the following are installed and available :
 > Ensure Docker daemon is running before executing the setup steps below.
 
 ### Local Setup
+
+#### CRUCIAL: Create .env files for each directory
+#### 1. Sample .env for alma-infra
+```
+# PostgreSQL
+POSTGRES_PASSWORD=alma_password
+POSTGRES_DB=alma
+POSTGRES_USER=postgres
+
+# MinIO
+MINIO_ROOT_USER=alma_access_key
+MINIO_ROOT_PASSWORD=alma_secret_key
+
+# Kafka
+KAFKA_VERSION=7.5.0
+KAFKA_BROKER_ID=1
+KAFKA_EXTERNAL_PORT=9092
+KAFKA_INTERNAL_PORT=29092
+KAFKA_REPLICATION_FACTOR=1
+KAFKA_AUTO_CREATE_TOPICS=true
+KAFKA_CLUSTER_NAME=alma-local
+
+# Zookeeper
+ZOOKEEPER_CLIENT_PORT=2181
+ZOOKEEPER_TICK_TIME=2000
+
+# Kafka UI
+KAFKA_UI_VERSION=latest
+KAFKA_UI_PORT=8080
+
+```
+
+#### 2. Sample .env for leads-service  
+**Note**: need to generate secret key first (for password encryption)
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+```
+
+```
+# Database - use Docker service names
+POSTGRES_SERVER=alma-postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=alma_password
+POSTGRES_DB=alma
+POSTGRES_PORT=5432
+
+# MinIO/S3 - use Docker service names
+MINIO_URL=http://localhost:9001
+MINIO_ENDPOINT=alma-minio:9000
+MINIO_ACCESS_KEY=alma_access_key
+MINIO_SECRET_KEY=alma_secret_key
+MINIO_BUCKET_NAME=leads
+
+# Kafka
+KAFKA_BOOTSTRAP_SERVERS=alma-kafka:29092
+KAFKA_NEW_LEADS_TOPIC=new_leads
+
+# JWT Security
+SECRET_KEY=your-secret-key
+
+# CORS
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+```
+
+#### 3. Sample .env for notifications-service  
+**Note**: Need to generate app mail password for the configured SMTP user (see this guide: [YouTube - How to Generate App Password for Gmail SMTP](https://www.youtube.com/watch?v=GsXyF5Zb5UY)) 
+```
+# PostgreSQL
+POSTGRES_SERVER=alma-postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=alma_password
+POSTGRES_DB=alma
+POSTGRES_PORT=5432
+
+#Kafka
+KAFKA_BOOTSTRAP_SERVERS=alma-kafka:29092
+KAFKA_NEW_LEADS_TOPIC=new_leads
+KAFKA_CONSUMER_GROUP=notification-workers
+
+# Email Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=alma-sender-email-here@gmail.com
+SMTP_PASSWORD=alma-sender-mail-app-password
+FROM_EMAIL=notifications@alma.com
+ATTORNEY_EMAIL=alma-attorney-email-here@gmail.com
+```
+
+
 #### 1. Create infrastructure resources
 ```bash
 cd alma-infra
